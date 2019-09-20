@@ -21,6 +21,7 @@ BOLD = Style.BRIGHT
 BLUE = Fore.BLUE + BOLD
 GREEN = Fore.GREEN + BOLD
 RED = Fore.RED + BOLD
+CYAN = Fore.CYAN + BOLD
 YELLOW = Fore.YELLOW + BOLD
 RESET = Style.RESET_ALL
 
@@ -256,6 +257,11 @@ def _dispatch(base_path, callback, args):
         Repo(base)
         valid = [base]
     except exc.NoSuchPathError:
+        if is_comment(base):
+            comment = get_comment(base)
+            if comment:
+                print(CYAN + BOLD + comment)
+            return
         paths = glob(base)
         if not paths:
             print(ERROR, BOLD + base, "doesn't exist!")
@@ -275,6 +281,14 @@ def _dispatch(base_path, callback, args):
     paths = [(_get_basename(base, path), path) for path in valid]
     for name, path in sorted(paths):
         callback(Repo(path), name, args)
+
+def is_comment(path):
+    """Does the line start with a # symbol?"""
+    return path.lstrip().startswith("#")
+
+def get_comment(path):
+    """Return the string minus the comment symbol."""
+    return path.lstrip().lstrip("#").strip()
 
 def update_bookmarks(bookmarks, args):
     """Loop through and update all bookmarks."""

@@ -1,3 +1,10 @@
+v0.5.1 (released September 20, 2019):
+
+- Support simple comments in the bookmarks file. (#51)
+- Add an integrated pytest testing suite, runnable with `--selftest`.
+- Refactor internals, remove deprecated options, and drop support for
+  end-of-life Python versions.
+
 v0.5 (released August 28, 2018):
 
 - Added a `--depth` flag to control recursion depth when searching for
